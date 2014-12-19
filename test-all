@@ -8,7 +8,6 @@ REPOSITORIES="
     SimonSapin/rust-casefold
 "
 
-RESULT=0
 YELLOW=33
 RED=31
 
@@ -17,6 +16,8 @@ function color {
     shift
     echo -e "\033[1;${COLOR}m$@\033[0m"
 }
+
+FAILED=""
 
 for REPOSITORY in $REPOSITORIES
 do
@@ -30,15 +31,21 @@ do
     if [ -f clones/$REPOSITORY/Makefile ]
     then
         color $YELLOW 'Running `make test` in' $REPOSITORY...
-        make -C clones/$REPOSITORY test || RESULT=$?
+        make -C clones/$REPOSITORY test || FAILED="$FAILED $REPOSITORY"
     elif [ -f clones/$REPOSITORY/Cargo.toml ]
     then
         color $YELLOW 'Running `cargo test` in' $REPOSITORY...
-        cargo test --manifest-path clones/$REPOSITORY/Cargo.toml || RESULT=$?
+        cargo test --manifest-path clones/$REPOSITORY/Cargo.toml || FAILED="$FAILED $REPOSITORY"
     else
         color $RED 'Found neither `Makefile` not `Cargo.toml` in' $REPOSITORY
         RESULT=1
     fi
 done
 
-exit $RESULT
+if [ -n "$FAILED" ]
+then
+    echo
+    color $RED "Tests in some repositories have failed:$FAILED"
+    exit 1
+fi
+
