@@ -1,0 +1,44 @@
+#!/bin/sh
+
+REPOSITORIES="
+    servo/rust-url
+    servo/rust-cssparser
+    SimonSapin/rust-std-candidates
+    SimonSapin/rust-wtf8
+    SimonSapin/rust-casefold
+"
+
+RESULT=0
+YELLOW=33
+RED=31
+
+function color {
+    COLOR=$1
+    shift
+    echo -e "\033[1;${COLOR}m$@\033[0m"
+}
+
+for REPOSITORY in $REPOSITORIES
+do
+    if [ -d clones/$REPOSITORY ]
+    then
+        (cd clones/$REPOSITORY && git fetch && git reset --hard origin/master)
+    else
+        git clone https://github.com/$REPOSITORY.git clones/$REPOSITORY
+    fi
+
+    if [ -f clones/$REPOSITORY/Makefile ]
+    then
+        color $YELLOW 'Running `make test` in' $REPOSITORY...
+        make -C clones/$REPOSITORY test || RESULT=$?
+    elif [ -f clones/$REPOSITORY/Cargo.toml ]
+    then
+        color $YELLOW 'Running `cargo test` in' $REPOSITORY...
+        cargo test --manifest-path clones/$REPOSITORY/Cargo.toml || RESULT=$?
+    else
+        color $RED 'Found neither `Makefile` not `Cargo.toml` in' $REPOSITORY
+        RESULT=1
+    fi
+done
+
+exit $RESULT
