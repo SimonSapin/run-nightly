@@ -1,4 +1,5 @@
 #!/bin/sh
+cd $(dirname $0)
 git fetch origin
 MASTER_TREE=$(git cat-file commit origin/master | head -1 | cut -d' ' -f2)
 COMMIT_MESSAGE="Triggering a new build at $(date -Iseconds)"
