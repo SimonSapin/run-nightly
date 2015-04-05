@@ -7,6 +7,8 @@ REPOSITORIES="
     SimonSapin/rust-std-candidates
     SimonSapin/rust-wtf8
     SimonSapin/rust-casefold
+    SimonSapin/rust-rctree
+    SimonSapin/kuchiki
 "
 
 YELLOW=33
