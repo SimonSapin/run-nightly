@@ -4,6 +4,9 @@ REPOSITORIES="
     servo/rust-url
     servo/rust-cssparser
     servo/rust-selectors
+    servo/rust-quicksort
+    servo/rust-smallvec
+    servo/rust-fnv
     SimonSapin/rust-std-candidates
     SimonSapin/rust-wtf8
     SimonSapin/rust-casefold
