@@ -12,6 +12,8 @@ REPOSITORIES="
     SimonSapin/rust-casefold
     SimonSapin/rust-rctree
     SimonSapin/kuchiki
+    serde-rs/aster
+    serde-rs/serde
 "
 
 YELLOW=33
@@ -42,6 +44,10 @@ do
     then
         color $YELLOW 'Running `cargo test` in' $REPOSITORY...
         cargo test --manifest-path clones/$REPOSITORY/Cargo.toml || FAILED="$FAILED $REPOSITORY"
+    elif [ -f clones/$REPOSITORY/*test*/Cargo.toml ]
+    then
+        color $YELLOW 'Running `cargo test` in' $REPOSITORY/*test*...
+        cargo test --manifest-path clones/$REPOSITORY/*test*/Cargo.toml || FAILED="$FAILED $REPOSITORY"
     else
         color $RED 'Found neither `Makefile` not `Cargo.toml` in' $REPOSITORY
         RESULT=1
