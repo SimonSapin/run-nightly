@@ -7,6 +7,9 @@ REPOSITORIES="
     servo/rust-quicksort
     servo/rust-smallvec
     servo/rust-fnv
+    servo/html5ever
+    servo/string-cache
+    servo/tendril
     SimonSapin/rust-std-candidates
     SimonSapin/rust-wtf8
     SimonSapin/rust-casefold
