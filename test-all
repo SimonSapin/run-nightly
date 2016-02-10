@@ -32,9 +32,9 @@ for REPOSITORY in $REPOSITORIES
 do
     if [ -d clones/$REPOSITORY ]
     then
-        (cd clones/$REPOSITORY && git fetch && git reset --hard origin/master)
+        (cd clones/$REPOSITORY && git fetch && git reset --hard origin/master && git submodule update)
     else
-        git clone https://github.com/$REPOSITORY.git clones/$REPOSITORY
+        git clone --recursive https://github.com/$REPOSITORY.git clones/$REPOSITORY
     fi
 
     if [ -f clones/$REPOSITORY/Makefile ]
