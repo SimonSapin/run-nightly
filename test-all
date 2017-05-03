@@ -44,7 +44,7 @@ do
     elif [ -f clones/$REPOSITORY/Cargo.toml ]
     then
         color $YELLOW 'Running `cargo test` in' $REPOSITORY...
-        cargo test --manifest-path clones/$REPOSITORY/Cargo.toml || FAILED="$FAILED $REPOSITORY"
+        cargo test --manifest-path clones/$REPOSITORY/Cargo.toml --all || FAILED="$FAILED $REPOSITORY"
     else
         color $RED 'Found neither `Makefile` not `Cargo.toml` in' $REPOSITORY
         RESULT=1
