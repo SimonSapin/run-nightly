@@ -30,6 +30,7 @@ FAILED=""
 
 for REPOSITORY in $REPOSITORIES
 do
+    echo "travis_fold:start:$REPOSITORY"
     if [ -d clones/$REPOSITORY ]
     then
         (cd clones/$REPOSITORY && git fetch && git reset --hard origin/master && git submodule update)
@@ -49,6 +50,7 @@ do
         color $RED 'Found neither `Makefile` not `Cargo.toml` in' $REPOSITORY
         RESULT=1
     fi
+    echo "travis_fold:start:$REPOSITORY"
 done
 
 if [ -n "$FAILED" ]
